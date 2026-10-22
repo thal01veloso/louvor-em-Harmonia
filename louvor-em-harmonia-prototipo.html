@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Protótipo interativo do SaaS Louvor em Harmonia para gestão de equipes de louvor.">
+<title>Louvor em Harmonia — Protótipo SaaS</title>
+<style>
+:root{--navy:#172b4d;--navy2:#29466d;--gold:#c79b4b;--bg:#f4f6fa;--white:#fff;--ink:#243044;--muted:#718096;--line:#e3e8f0;--green:#287d62;--blue:#3d6fbd;--orange:#b97827;--shadow:0 8px 25px rgba(26,44,73,.06)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{min-height:100vh;display:grid;grid-template-columns:248px minmax(0,1fr)}
+.sidebar{background:#142744;color:#eaf0f8;padding:23px 15px;display:flex;flex-direction:column;gap:25px}.brand{display:flex;align-items:center;gap:11px;padding:0 8px}.brand-mark{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:var(--gold);color:#142744;font-weight:900;font-size:18px}.brand strong{display:block;font-size:14px;letter-spacing:.01em}.brand small{display:block;color:#aebdd1;font-size:11px;margin-top:2px}.nav-label{font-size:10px;text-transform:uppercase;letter-spacing:.13em;color:#90a2bb;padding:0 12px;margin-bottom:7px}.nav{display:grid;gap:4px}.nav button{width:100%;border:0;background:transparent;color:#cbd6e5;text-align:left;padding:11px 12px;border-radius:9px;display:flex;gap:12px;align-items:center}.nav button:hover,.nav button.active{background:#294466;color:#fff}.ico{width:18px;text-align:center;font-size:16px}.side-bottom{margin-top:auto;border-top:1px solid #30445f;padding:18px 8px 0;color:#aebdd1;font-size:12px}.user-mini{display:flex;align-items:center;gap:10px;margin-top:13px;color:#fff}.avatar{width:35px;height:35px;border-radius:50%;background:#e8d5ad;color:#3e3421;display:grid;place-items:center;font-weight:800;flex:none}.avatar.blue{background:#dbe8f8;color:#284e80}.avatar.green{background:#d7eee4;color:#25664f}.avatar.purple{background:#e8def7;color:#624c8c}.avatar.orange{background:#f9e3cd;color:#85521f}
+.main{min-width:0}.topbar{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 30px;gap:15px}.breadcrumb{color:var(--muted);font-size:12px}.breadcrumb strong{color:var(--ink)}.top-actions{display:flex;align-items:center;gap:12px}.icon-btn{border:1px solid var(--line);background:#fff;border-radius:10px;width:38px;height:38px;color:#536176}.profile{display:flex;align-items:center;gap:9px;font-size:12px}.profile small{display:block;color:var(--muted)}.content{padding:28px 30px 42px;max-width:1500px;margin:auto}.welcome{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:22px}.eyebrow{color:#9a742f;font-size:10px;text-transform:uppercase;letter-spacing:.15em;font-weight:800}.welcome h1{font-size:26px;letter-spacing:-.04em;margin:5px 0 6px;color:var(--navy)}.welcome p{margin:0;color:var(--muted)}.btn{border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);padding:10px 14px;font-weight:700;display:inline-flex;align-items:center;gap:8px}.btn.primary{background:var(--navy);border-color:var(--navy);color:#fff}.btn.gold{background:var(--gold);border-color:var(--gold);color:#172b4d}.btn:hover{filter:brightness(.97)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}.stat,.panel{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}.stat{padding:16px 17px}.stat-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px}.stat-icon{width:34px;height:34px;border-radius:10px;background:#edf2f9;color:var(--navy2);display:grid;place-items:center;font-size:16px}.stat strong{display:block;font-size:28px;line-height:1.25;margin:12px 0 5px;color:var(--navy);letter-spacing:-.04em}.trend{font-size:11px;color:var(--green)}.muted{color:var(--muted)}.dashboard-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(290px,1fr);gap:17px}.panel{padding:19px;margin-bottom:17px;min-width:0}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:15px}.panel-head h2{font-size:15px;color:var(--navy);margin:0}.text-link{border:0;background:none;color:var(--blue);font-size:12px;font-weight:700;padding:4px}.event{display:flex;gap:13px;padding:13px 0;border-top:1px solid #edf0f5}.event:first-of-type{border-top:0;padding-top:0}.datebox{width:53px;min-width:53px;height:59px;border:1px solid var(--line);border-radius:10px;text-align:center;overflow:hidden;background:#fbfcfe}.datebox b{display:block;background:#edf2f8;color:var(--navy2);font-size:10px;letter-spacing:.08em;padding:4px}.datebox strong{font-size:20px;display:block;padding-top:3px;color:var(--navy)}.event-info{flex:1;min-width:0}.event-info h3{font-size:13px;margin:1px 0 5px}.event-info p{font-size:11px;color:var(--muted);margin:0 0 2px}.event-right{text-align:right;min-width:86px}.status{display:inline-block;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:800;background:#e8f5ef;color:#237553}.status.pending{background:#fff2dc;color:#94621d}.status.blue{background:#eaf1fd;color:#315d9e}.event-right small{display:block;color:var(--muted);font-size:10px;margin-top:7px}.member-list{display:grid;gap:13px}.member{display:flex;align-items:center;gap:10px}.name{font-size:12px;font-weight:750}.role{font-size:11px;color:var(--muted)}.right{margin-left:auto;color:var(--muted);font-size:11px}.progress-wrap{margin-top:17px;padding-top:14px;border-top:1px solid var(--line)}.progress-label{display:flex;justify-content:space-between;font-size:11px;margin-bottom:7px}.progress{height:7px;background:#edf0f5;border-radius:999px;overflow:hidden}.progress span{height:100%;display:block;background:var(--gold);border-radius:999px}.quick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.quick{border:1px solid var(--line);background:#fcfdff;border-radius:11px;padding:14px;text-align:left;color:var(--ink)}.quick:hover{border-color:#b9c9de;background:#f7faff}.qicon{font-size:18px;display:block;margin-bottom:8px}.quick strong{display:block;font-size:12px}.quick small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.announcement{background:#f7f9fc;border-radius:10px;padding:12px 13px;border-left:3px solid var(--gold);margin-bottom:9px}.announcement strong{font-size:12px;display:block}.announcement p{font-size:11px;color:var(--muted);margin:4px 0 0}.birthday{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid #edf0f5}.birthday:first-of-type{border-top:0}.day{margin-left:auto;font-size:11px;color:var(--muted)}
+.view{display:none}.view.active{display:block}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}.toolbar input,.toolbar select{border:1px solid var(--line);border-radius:9px;background:#fff;padding:10px 12px;color:var(--ink);min-width:180px}.data-table{width:100%;border-collapse:collapse;font-size:12px}.data-table th,.data-table td{text-align:left;padding:12px 10px;border-bottom:1px solid #edf0f5}.data-table th{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}.data-table tr:last-child td{border-bottom:0}.table-scroll{overflow-x:auto}.grid-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.feature-card{border:1px solid var(--line);border-radius:12px;padding:17px;background:#fff}.feature-card h3{font-size:14px;margin:0 0 7px;color:var(--navy)}.feature-card p{font-size:12px;color:var(--muted);margin:0 0 13px}.feature-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);border-top:1px solid var(--line);padding-top:11px}.tag{display:inline-block;background:#eaf1fb;color:#29466d;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:800;margin-bottom:9px}.song-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid #edf0f5}.song-row:first-of-type{border-top:0}.song-cover{width:42px;height:42px;border-radius:10px;background:#edf2f8;color:var(--navy);display:grid;place-items:center;font-size:17px;flex:none}.song-info{flex:1;min-width:0}.song-info strong{font-size:12px;display:block}.song-info small{font-size:11px;color:var(--muted)}.key-pill{background:#f9f0df;color:#876323;border-radius:7px;padding:5px 8px;font-size:11px;font-weight:800}.empty-note{background:#fff;border:1px dashed #cbd5e1;border-radius:12px;padding:35px;text-align:center;color:var(--muted)}.callout{background:#fbf4e7;border-left:3px solid var(--gold);padding:12px 14px;border-radius:0 9px 9px 0;font-size:12px;margin-top:12px}.toast{position:fixed;right:22px;bottom:22px;background:#172b4d;color:white;padding:13px 17px;border-radius:10px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s;z-index:20}.toast.show{opacity:1;transform:translateY(0)}.modal-backdrop{position:fixed;inset:0;background:rgba(15,28,48,.45);display:none;align-items:center;justify-content:center;padding:20px;z-index:10}.modal-backdrop.show{display:flex}.modal{background:#fff;border-radius:15px;padding:24px;width:min(480px,100%);box-shadow:0 20px 60px rgba(0,0,0,.2)}.modal h2{font-size:18px;color:var(--navy);margin:0 0 15px}.field{display:grid;gap:5px;margin:12px 0}.field label{font-size:12px;font-weight:750}.field input,.field select,.field textarea{border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit;width:100%}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
+@media(max-width:1100px){.app{grid-template-columns:215px minmax(0,1fr)}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.dashboard-grid{grid-template-columns:1fr}.grid-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.app{grid-template-columns:1fr}.sidebar{padding:13px;gap:12px}.brand{padding:2px 6px}.nav-label,.side-bottom{display:none}.nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}.nav button{display:flex;flex-direction:column;justify-content:center;gap:3px;text-align:center;padding:9px 4px;font-size:10px}.ico{font-size:16px}.topbar{height:58px;padding:0 14px}.profile span{display:none}.content{padding:20px 13px}.welcome{display:block}.welcome .btn{margin-top:14px}.welcome h1{font-size:23px}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:24px}.stat-top{font-size:10px}.panel{padding:15px}.grid-cards{grid-template-columns:1fr}.data-table{min-width:620px}.event-right{min-width:72px}.quick-grid{gap:8px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="brand-mark">LH</div><div><strong>LOUVOR EM HARMONIA</strong><small>Organização do ministério</small></div></div>
+  <div><div class="nav-label">Workspace</div><nav class="nav" id="nav">
+    <button class="active" data-view="dashboard"><span class="ico">⌂</span>Visão geral</button>
+    <button data-view="members"><span class="ico">♙</span>Integrantes</button>
+    <button data-view="schedules"><span class="ico">▦</span>Escalas</button>
+    <button data-view="repertoire"><span class="ico">♫</span>Repertórios</button>
+    <button data-view="songs"><span class="ico">♪</span>Biblioteca musical</button>
+    <button data-view="cifras"><span class="ico">♬</span>Cifras</button>
+    <button data-view="anniversaries"><span class="ico">✦</span>Aniversariantes</button>
+    <button data-view="announcements"><span class="ico">◉</span>Comunicados</button>
+  </nav></div>
+  <div class="side-bottom">AMBIENTE DE DEMONSTRAÇÃO<div class="user-mini"><div class="avatar">PL</div><div><strong style="font-size:12px">Pr. Lucas Martins</strong><div>Líder de louvor</div></div></div></div>
+</aside>
+<div class="main">
+<header class="topbar"><div class="breadcrumb">Louvor em Harmonia <span style="color:#b7c0ce"> / </span> <strong id="crumb">Visão geral</strong></div><div class="top-actions"><button class="icon-btn" title="Notificações" onclick="toast('Você está em dia com as notificações de demonstração.')">♧</button><div class="profile"><div class="avatar">PL</div><span><strong>Pr. Lucas Martins</strong><small>Líder de louvor · Administrador</small></span></div></div></header>
+<main class="content">
+<section class="view active" id="view-dashboard">
+  <div class="welcome"><div><div class="eyebrow">Quarta-feira · Preparação para o próximo culto</div><h1>Bom dia, Pr. Lucas 👋</h1><p>A equipe está se preparando. Veja as escalas, confirmações e repertórios desta semana.</p></div><button class="btn primary" onclick="openModal('Criar escala','schedule')">＋ Criar escala</button></div>
+  <div class="stats">
+    <div class="stat"><div class="stat-top"><span>Integrantes ativos</span><span class="stat-icon">♙</span></div><strong id="stat-members">28</strong><span class="trend">↑ 3 novos neste trimestre</span></div>
+    <div class="stat"><div class="stat-top"><span>Próximos cultos</span><span class="stat-icon">▦</span></div><strong>3</strong><span class="muted">Nos próximos 14 dias</span></div>
+    <div class="stat"><div class="stat-top"><span>Confirmações pendentes</span><span class="stat-icon">◷</span></div><strong>5</strong><span style="font-size:11px;color:var(--orange)">Precisam de acompanhamento</span></div>
+    <div class="stat"><div class="stat-top"><span>Músicas na biblioteca</span><span class="stat-icon">♫</span></div><strong>146</strong><span class="muted">Repertório centralizado</span></div>
+  </div>
+  <div class="dashboard-grid"><div>
+    <div class="panel"><div class="panel-head"><h2>Próximas escalas</h2><button class="text-link" onclick="showView('schedules')">Ver calendário →</button></div>
+      <div class="event"><div class="datebox"><b>OUT</b><strong>25</strong></div><div class="event-info"><h3>Culto de celebração — Domingo manhã</h3><p>◷ Domingo, 09:00 · Santuário principal</p><p>Equipe: vocal, teclado, guitarra, baixo e bateria</p></div><div class="event-right"><span class="status">Publicada</span><small>8 integrantes</small></div></div>
+      <div class="event"><div class="datebox"><b>OUT</b><strong>28</strong></div><div class="event-info"><h3>Ensaio geral</h3><p>◷ Quarta-feira, 19:30 · Sala de música</p><p>Preparação do repertório do próximo domingo</p></div><div class="event-right"><span class="status pending">5 pendentes</span><small>10 convocados</small></div></div>
+      <div class="event"><div class="datebox"><b>NOV</b><strong>01</strong></div><div class="event-info"><h3>Culto de celebração — Domingo noite</h3><p>◷ Domingo, 18:30 · Santuário principal</p><p>Equipe de louvor e backing vocal</p></div><div class="event-right"><span class="status blue">Em edição</span><small>Rascunho</small></div></div>
+    </div>
+    <div class="panel"><div class="panel-head"><h2>Repertório do próximo culto</h2><button class="text-link" onclick="showView('repertoire')">Abrir repertório →</button></div>
+      <div class="song-row"><div class="song-cover">♫</div><div class="song-info"><strong>Bondade de Deus</strong><small>Isaias Saad · YouTube e cifra disponíveis</small></div><span class="key-pill">Tom: G</span></div>
+      <div class="song-row"><div class="song-cover">♪</div><div class="song-info"><strong>Grandes Coisas</strong><small>Fernandinho · YouTube e cifra disponíveis</small></div><span class="key-pill">Tom: A</span></div>
+      <div class="song-row"><div class="song-cover">♬</div><div class="song-info"><strong>A Ele a Glória</strong><small>Diante do Trono · YouTube e cifra disponíveis</small></div><span class="key-pill">Tom: D</span></div>
+      <div class="song-row"><div class="song-cover">♫</div><div class="song-info"><strong>Quão Grande é o Meu Deus</strong><small>Soraya Moraes · YouTube e cifra disponíveis</small></div><span class="key-pill">Tom: C</span></div>
+    </div>
+    <div class="panel"><div class="panel-head"><h2>Acessos rápidos</h2><span class="muted" style="font-size:11px">Ações frequentes</span></div><div class="quick-grid">
+      <button class="quick" onclick="openModal('Cadastrar integrante','member')"><span class="qicon">♙</span><strong>Cadastrar integrante</strong><small>Adicionar músico ou vocalista</small></button>
+      <button class="quick" onclick="openModal('Criar escala','schedule')"><span class="qicon">▦</span><strong>Criar escala</strong><small>Organizar a equipe de um culto</small></button>
+      <button class="quick" onclick="openModal('Adicionar música','song')"><span class="qicon">♫</span><strong>Adicionar música</strong><small>Atualizar a biblioteca musical</small></button>
+      <button class="quick" onclick="showView('repertoire')"><span class="qicon">♬</span><strong>Montar repertório</strong><small>Organizar as músicas do culto</small></button>
+    </div></div>
+  </div><div>
+    <div class="panel"><div class="panel-head"><h2>Confirmações da próxima escala</h2><button class="text-link" onclick="showView('schedules')">Gerenciar →</button></div>
+      <div class="member-list">
+        <div class="member"><div class="avatar blue">AM</div><div><div class="name">André Martins</div><div class="role">Vocal principal</div></div><div class="right"><span class="status">Confirmado</span></div></div>
+        <div class="member"><div class="avatar green">RC</div><div><div class="name">Rafael Costa</div><div class="role">Guitarra</div></div><div class="right"><span class="status">Confirmado</span></div></div>
+        <div class="member"><div class="avatar purple">FS</div><div><div class="name">Felipe Santos</div><div class="role">Teclado</div></div><div class="right"><span class="status pending">Pendente</span></div></div>
+        <div class="member"><div class="avatar orange">JL</div><div><div class="name">João Lima</div><div class="role">Baixo</div></div><div class="right"><span class="status">Confirmado</span></div></div>
+        <div class="member"><div class="avatar">MC</div><div><div class="name">Marcos Carvalho</div><div class="role">Bateria</div></div><div class="right"><span class="status pending">Pendente</span></div></div>
+      </div><div class="progress-wrap"><div class="progress-label"><span>Confirmações recebidas</span><strong>6 de 11</strong></div><div class="progress"><span style="width:55%"></span></div></div>
+    </div>
+    <div class="panel"><div class="panel-head"><h2>Aniversariantes do mês</h2><button class="text-link" onclick="showView('anniversaries')">Ver todos →</button></div>
+      <div class="birthday"><div class="avatar blue">AM</div><div><div class="name">André Martins</div><div class="role">Vocal principal</div></div><div class="day">23 out.</div></div>
+      <div class="birthday"><div class="avatar green">RC</div><div><div class="name">Rafael Costa</div><div class="role">Guitarrista</div></div><div class="day">27 out.</div></div>
+      <div class="birthday"><div class="avatar purple">LC</div><div><div class="name">Lucas Carvalho</div><div class="role">Backing vocal</div></div><div class="day">30 out.</div></div>
+    </div>
+    <div class="panel"><div class="panel-head"><h2>Comunicados recentes</h2><button class="text-link" onclick="showView('announcements')">Ver todos →</button></div>
+      <div class="announcement"><strong>Ensaio geral na quarta-feira</strong><p>Chegue às 19h15 para organizar os instrumentos e iniciar pontualmente.</p></div>
+      <div class="announcement"><strong>Repertório publicado</strong><p>Confira as tonalidades e estude as músicas antes do próximo culto.</p></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="view" id="view-members">
+  <div class="welcome"><div><div class="eyebrow">Equipe de louvor</div><h1>Integrantes</h1><p>Gerencie vocalistas, músicos, instrumentos e funções da equipe.</p></div><button class="btn primary" onclick="openModal('Cadastrar integrante','member')">＋ Novo integrante</button></div>
+  <div class="panel"><div class="toolbar"><input id="memberSearch" placeholder="Buscar por nome, e-mail ou função..." oninput="filterMembers()"><select id="memberRole" onchange="filterMembers()"><option value="">Todas as funções</option><option>Vocal principal</option><option>Backing vocal</option><option>Guitarra</option><option>Baixo</option><option>Bateria</option><option>Teclado</option><option>Violão</option></select><select id="memberStatus" onchange="filterMembers()"><option value="">Todos os status</option><option>Ativo</option><option>Inativo</option></select></div>
+  <div class="table-scroll"><table class="data-table" id="membersTable"><thead><tr><th>Integrante</th><th>Função principal</th><th>Funções adicionais</th><th>Contato</th><th>Status</th></tr></thead><tbody>
+  <tr><td><strong>André Martins</strong></td><td>Vocal principal</td><td>Violão</td><td>andre@email.com</td><td><span class="status">Ativo</span></td></tr>
+  <tr><td><strong>Rafael Costa</strong></td><td>Guitarra</td><td>Violão</td><td>rafael@email.com</td><td><span class="status">Ativo</span></td></tr>
+  <tr><td><strong>Felipe Santos</strong></td><td>Teclado</td><td>Piano</td><td>felipe@email.com</td><td><span class="status">Ativo</span></td></tr>
+  <tr><td><strong>João Lima</strong></td><td>Baixo</td><td>Backing vocal</td><td>joao@email.com</td><td><span class="status">Ativo</span></td></tr>
+  <tr><td><strong>Marcos Carvalho</strong></td><td>Bateria</td><td>Percussão</td><td>marcos@email.com</td><td><span class="status">Ativo</span></td></tr>
+  <tr><td><strong>Lucas Carvalho</strong></td><td>Backing vocal</td><td>Vocal</td><td>lucas@email.com</td><td><span class="status">Ativo</span></td></tr>
+  </tbody></table></div><p class="muted" style="font-size:11px;margin-bottom:0">Dados fictícios para demonstração. Informações de contato não devem ser expostas a usuários sem autorização.</p></div>
+</section>
+
+<section class="view" id="view-schedules">
+  <div class="welcome"><div><div class="eyebrow">Planejamento de cultos e ensaios</div><h1>Escalas</h1><p>Monte as equipes, acompanhe confirmações e associe o repertório a cada evento.</p></div><button class="btn primary" onclick="openModal('Criar escala','schedule')">＋ Criar escala</button></div>
+  <div class="panel"><div class="panel-head"><h2>Próximas escalas</h2><span class="tag">Outubro–Novembro 2026</span></div>
+    <div class="event"><div class="datebox"><b>OUT</b><strong>25</strong></div><div class="event-info"><h3>Culto de celebração — Domingo manhã</h3><p>09:00 · Santuário principal</p><p>Vocal principal, backing vocal, teclado, guitarra, baixo e bateria.</p></div><div class="event-right"><span class="status">Publicada</span><small>6/8 confirmados</small><button class="text-link" onclick="toast('Detalhes da escala de demonstração.')">Detalhes</button></div></div>
+    <div class="event"><div class="datebox"><b>OUT</b><strong>28</strong></div><div class="event-info"><h3>Ensaio geral</h3><p>19:30 · Sala de música</p><p>Passagem de som e estudo do repertório do próximo domingo.</p></div><div class="event-right"><span class="status pending">Confirmações</span><small>5 pendentes</small><button class="text-link" onclick="toast('Lista de confirmações de demonstração.')">Detalhes</button></div></div>
+    <div class="event"><div class="datebox"><b>NOV</b><strong>01</strong></div><div class="event-info"><h3>Culto de celebração — Domingo noite</h3><p>18:30 · Santuário principal</p><p>Escala em preparação pela liderança.</p></div><div class="event-right"><span class="status blue">Rascunho</span><small>Não publicada</small></div></div>
+  </div>
+</section>
+
+<section class="view" id="view-repertoire">
+  <div class="welcome"><div><div class="eyebrow">Preparação musical</div><h1>Repertórios</h1><p>Organize a ordem das músicas, tonalidades e observações de cada culto.</p></div><button class="btn primary" onclick="openModal('Montar repertório','setlist')">＋ Montar repertório</button></div>
+  <div class="panel"><div class="panel-head"><h2>Repertório — Culto de 25 de outubro</h2><span class="status">Publicado</span></div><p class="muted" style="font-size:12px">Domingo · 09:00 · Santuário principal · Responsável: Pr. Lucas Martins</p>
+    <div class="song-row"><div class="song-cover">1</div><div class="song-info"><strong>Bondade de Deus</strong><small>Isaias Saad · <a href="https://www.youtube.com/results?search_query=Bondade+de+Deus+Isaias+Saad" target="_blank" rel="noopener">Abrir YouTube ↗</a> · <button class="text-link" onclick="showView('cifras')">Ver cifra</button></small></div><span class="key-pill">G</span></div>
+    <div class="song-row"><div class="song-cover">2</div><div class="song-info"><strong>Grandes Coisas</strong><small>Fernandinho · <a href="https://www.youtube.com/results?search_query=Grandes+Coisas+Fernandinho" target="_blank" rel="noopener">Abrir YouTube ↗</a> · <button class="text-link" onclick="showView('cifras')">Ver cifra</button></small></div><span class="key-pill">A</span></div>
+    <div class="song-row"><div class="song-cover">3</div><div class="song-info"><strong>A Ele a Glória</strong><small>Diante do Trono · <a href="https://www.youtube.com/results?search_query=A+Ele+a+Gloria+Diante+do+Trono" target="_blank" rel="noopener">Abrir YouTube ↗</a> · <button class="text-link" onclick="showView('cifras')">Ver cifra</button></small></div><span class="key-pill">D</span></div>
+    <div class="song-row"><div class="song-cover">4</div><div class="song-info"><strong>Quão Grande é o Meu Deus</strong><small>Soraya Moraes · <a href="https://www.youtube.com/results?search_query=Quao+Grande+e+o+Meu+Deus+Soraya+Moraes" target="_blank" rel="noopener">Abrir YouTube ↗</a> · <button class="text-link" onclick="showView('cifras')">Ver cifra</button></small></div><span class="key-pill">C</span></div>
+    <div class="callout">Este protótipo usa links de pesquisa do YouTube como exemplo. A aplicação real deverá permitir cadastrar e validar os links oficiais escolhidos pela equipe.</div>
+  </div>
+</section>
+
+<section class="view" id="view-songs">
+  <div class="welcome"><div><div class="eyebrow">Acervo da equipe</div><h1>Biblioteca musical</h1><p>Catálogo central de músicas, referências, tonalidades e recursos autorizados.</p></div><button class="btn primary" onclick="openModal('Adicionar música','song')">＋ Adicionar música</button></div>
+  <div class="panel"><div class="toolbar"><input id="songSearch" placeholder="Buscar música ou artista..." oninput="filterSongs()"><select><option>Todas as categorias</option><option>Louvor congregacional</option><option>Adoração</option><option>Abertura</option><option>Encerramento</option></select></div><div id="songList">
+    <div class="song-row" data-search="bondade de deus isaias saad"><div class="song-cover">♫</div><div class="song-info"><strong>Bondade de Deus</strong><small>Isaias Saad · Louvor congregacional</small></div><span class="key-pill">G</span><button class="btn" onclick="showView('cifras')">Cifra</button></div>
+    <div class="song-row" data-search="grandes coisas fernandinho"><div class="song-cover">♪</div><div class="song-info"><strong>Grandes Coisas</strong><small>Fernandinho · Celebração</small></div><span class="key-pill">A</span><button class="btn" onclick="showView('cifras')">Cifra</button></div>
+    <div class="song-row" data-search="a ele a gloria diante do trono"><div class="song-cover">♬</div><div class="song-info"><strong>A Ele a Glória</strong><small>Diante do Trono · Adoração</small></div><span class="key-pill">D</span><button class="btn" onclick="showView('cifras')">Cifra</button></div>
+    <div class="song-row" data-search="quao grande e o meu deus soraya moraes"><div class="song-cover">♫</div><div class="song-info"><strong>Quão Grande é o Meu Deus</strong><small>Soraya Moraes · Adoração</small></div><span class="key-pill">C</span><button class="btn" onclick="showView('cifras')">Cifra</button></div>
+  </div></div>
+</section>
+
+<section class="view" id="view-cifras">
+  <div class="welcome"><div><div class="eyebrow">Estudo e ensaio</div><h1>Cifras</h1><p>Consulte tonalidades, referências e materiais musicais autorizados.</p></div></div>
+  <div class="panel"><div class="toolbar"><select id="chordSong" onchange="updateChordTitle()"><option>Bondade de Deus</option><option>Grandes Coisas</option><option>A Ele a Glória</option><option>Quão Grande é o Meu Deus</option></select><select id="chordKey" onchange="transposeDemo()"><option value="G">Tom G</option><option value="A">Tom A</option><option value="C">Tom C</option><option value="D">Tom D</option><option value="E">Tom E</option></select><button class="btn" onclick="toast('Modo de leitura demonstrativo.')">⛶ Tela cheia</button></div>
+    <h2 id="chordTitle" style="color:var(--navy);font-size:20px">Bondade de Deus</h2><p class="muted" style="font-size:12px">Visualização ilustrativa de acordes. Adicione cifras próprias, autorizadas ou links de fontes licenciadas no sistema real.</p>
+    <div style="background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:20px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;line-height:2.2;white-space:pre-wrap" id="chordBody"><span style="color:#9b732d;font-weight:800">[Intro]</span>
+G   D/F#   Em7   Cadd9
+
+<span style="color:#9b732d;font-weight:800">[Versão de demonstração — sequência de acordes]</span>
+G              D/F#
+Em7            Cadd9
+G              D
+Cadd9          D
+
+<span style="color:#718096;font-family:system-ui;font-size:12px">Conteúdo ilustrativo; não representa a cifra completa da música.</span></div>
+    <div class="callout">A transposição musical completa e a gestão de direitos autorais deverão ser implementadas e testadas na versão de produção.</div>
+  </div>
+</section>
+
+<section class="view" id="view-anniversaries">
+  <div class="welcome"><div><div class="eyebrow">Comunidade</div><h1>Aniversariantes</h1><p>Veja os aniversários do mês para celebrar e valorizar cada integrante.</p></div></div>
+  <div class="panel"><div class="panel-head"><h2>Outubro</h2><span class="tag">3 aniversariantes</span></div>
+    <div class="birthday"><div class="avatar blue">AM</div><div><div class="name">André Martins</div><div class="role">Vocal principal</div></div><div class="day">23 de outubro</div></div>
+    <div class="birthday"><div class="avatar green">RC</div><div><div class="name">Rafael Costa</div><div class="role">Guitarra</div></div><div class="day">27 de outubro</div></div>
+    <div class="birthday"><div class="avatar purple">LC</div><div><div class="name">Lucas Carvalho</div><div class="role">Backing vocal</div></div><div class="day">30 de outubro</div></div>
+  </div>
+</section>
+
+<section class="view" id="view-announcements">
+  <div class="welcome"><div><div class="eyebrow">Comunicação interna</div><h1>Comunicados</h1><p>Compartilhe avisos importantes com vocalistas e músicos.</p></div><button class="btn primary" onclick="openModal('Novo comunicado','announcement')">＋ Novo comunicado</button></div>
+  <div class="panel"><div class="announcement"><strong>Ensaio geral na quarta-feira</strong><p>Chegue às 19h15 para organizar os instrumentos e iniciar pontualmente.</p><small class="muted">Publicado pela liderança · Hoje</small></div><div class="announcement"><strong>Repertório do domingo publicado</strong><p>Confira as tonalidades e estude as músicas antes do próximo culto.</p><small class="muted">Publicado pela liderança · Ontem</small></div><div class="announcement"><strong>Atualização da escala</strong><p>A escala do culto da noite está em preparação. Aguarde a publicação oficial.</p><small class="muted">Publicado pela liderança · 20 out.</small></div></div>
+</section>
+<p class="muted" style="font-size:11px;text-align:center;margin-top:6px">Protótipo visual interativo · Dados fictícios · Não conectado a banco de dados ou serviços externos.</p>
+</main></div></div>
+
+<div class="toast" id="toast"></div>
+<div class="modal-backdrop" id="modalBackdrop" onclick="if(event.target===this)closeModal()"><div class="modal"><h2 id="modalTitle">Novo registro</h2><form id="modalForm" onsubmit="submitModal(event)"><div id="modalFields"></div><div class="modal-actions"><button type="button" class="btn" onclick="closeModal()">Cancelar</button><button type="submit" class="btn primary">Salvar demonstração</button></div></form></div></div>
+<script>
+const titles={dashboard:'Visão geral',members:'Integrantes',schedules:'Escalas',repertoire:'Repertórios',songs:'Biblioteca musical',cifras:'Cifras',anniversaries:'Aniversariantes',announcements:'Comunicados'};
+function showView(name){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const el=document.getElementById('view-'+name);if(el)el.classList.add('active');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===name));document.getElementById('crumb').textContent=titles[name]||'Visão geral';window.scrollTo({top:0,behavior:'smooth'});}
+document.querySelectorAll('#nav button').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+let toastTimer;function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),3000);}
+const fields={
+ member:[['Nome completo','text','Nome do integrante'],['E-mail','email','nome@exemplo.com'],['Função principal','select',['Vocal principal','Backing vocal','Guitarra','Baixo','Bateria','Teclado','Violão','Saxofone','Percussão','Sonoplastia']],['Funções adicionais','text','Ex.: violão, backing vocal']],
+ schedule:[['Nome do culto ou ensaio','text','Ex.: Culto de celebração'],['Data','date',''],['Horário','text','Ex.: 09:00'],['Local','text','Local do evento']],
+ song:[['Título da música','text','Título'],['Artista/ministério','text','Artista'],['Link do YouTube','url','https://'],['Tonalidade','text','Ex.: G']],
+ setlist:[['Nome do repertório','text','Ex.: Culto de domingo'],['Data do culto','date',''],['Músicas (separadas por vírgula)','text','Música 1, Música 2, Música 3']],
+ announcement:[['Título','text','Título do comunicado'],['Mensagem','textarea','Escreva o comunicado']]
+};
+function openModal(title,type){document.getElementById('modalTitle').textContent=title;document.getElementById('modalFields').innerHTML=(fields[type]||[]).map((f,i)=>{let field=f[1]==='select'?`<select id="f${i}">${f[2].map(v=>`<option>${v}</option>`).join('')}</select>`:f[1]==='textarea'?`<textarea id="f${i}" placeholder="${f[2]}" rows="4" required></textarea>`:`<input id="f${i}" type="${f[1]}" placeholder="${f[2]}" ${f[1]==='url'?'':'required'}>`;return `<div class="field"><label for="f${i}">${f[0]}</label>${field}</div>`}).join('');document.getElementById('modalForm').dataset.type=type;document.getElementById('modalBackdrop').classList.add('show');}
+function closeModal(){document.getElementById('modalBackdrop').classList.remove('show');}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function submitModal(e){e.preventDefault();const type=e.target.dataset.type;const vals=[...document.querySelectorAll('#modalFields input,#modalFields select,#modalFields textarea')].map(x=>x.value.trim());closeModal();toast('Registro de demonstração recebido. Para persistência real, conecte backend e banco de dados.');if(type==='member'){const tr=document.createElement('tr');tr.innerHTML=`<td><strong>${esc(vals[0])}</strong></td><td>${esc(vals[2])}</td><td>${esc(vals[3]||'—')}</td><td>${esc(vals[1]||'—')}</td><td><span class="status pending">Demonstração</span></td>`;document.querySelector('#membersTable tbody').prepend(tr);document.getElementById('stat-members').textContent=String(Number(document.getElementById('stat-members').textContent)+1);}}
+function filterMembers(){const q=(document.getElementById('memberSearch').value||'').toLowerCase();const role=document.getElementById('memberRole').value;const status=document.getElementById('memberStatus').value;document.querySelectorAll('#membersTable tbody tr').forEach(tr=>{const text=tr.innerText.toLowerCase();tr.style.display=(!q||text.includes(q))&&(!role||tr.cells[1].innerText===role||tr.cells[2].innerText.includes(role))&&(!status||tr.cells[4].innerText===status)?'':'none';});}
+function filterSongs(){const q=document.getElementById('songSearch').value.toLowerCase();document.querySelectorAll('#songList .song-row').forEach(r=>r.style.display=r.dataset.search.includes(q)?'flex':'none');}
+function updateChordTitle(){document.getElementById('chordTitle').textContent=document.getElementById('chordSong').value;}
+function transposeDemo(){toast('Tom selecionado: '+document.getElementById('chordKey').value+'. Transposição completa será implementada na versão funcional.');}
+</script>
+</body>
+</html>
