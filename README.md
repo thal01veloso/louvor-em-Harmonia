@@ -8,6 +8,8 @@ O **Louvor em Harmonia** tem como objetivo simplificar a organização do minist
 
 O escopo funcional e técnico está documentado no arquivo [`escopo-louvor-em-harmonia.html`](./escopo-louvor-em-harmonia.html).
 
+O protótipo do produto será algo parecido com isso [`louvor-em-harmonia-prototipo.html`](./louvor-em-harmonia-prototipo.html).
+
 ## ✨ Funcionalidades previstas
 
 - **Gestão de integrantes:** cadastro, perfis, instrumentos e funções musicais.
