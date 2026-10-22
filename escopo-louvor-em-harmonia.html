@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Documento de escopo funcional e técnico da plataforma Louvor em Harmonia para gestão de integrantes, escalas, repertórios e cifras.">
+  <title>Escopo do Projeto — Louvor em Harmonia</title>
+  <style>
+    :root {
+      --navy: #172b4d;
+      --navy-2: #233e66;
+      --gold: #c79b4b;
+      --ink: #243044;
+      --muted: #65738a;
+      --line: #e1e7ef;
+      --surface: #f5f7fb;
+      --white: #fff;
+      --green: #287d62;
+      --blue-soft: #eaf1fb;
+      --gold-soft: #fbf4e7;
+      --shadow: 0 10px 28px rgba(25, 42, 70, .07);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+    body {
+      margin: 0;
+      background: var(--surface);
+      color: var(--ink);
+      font: 16px/1.68 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: var(--navy-2); }
+    .hero {
+      background: linear-gradient(135deg, #142744 0%, #233e66 70%, #31557e 100%);
+      color: #fff;
+      padding: 58px 24px 52px;
+      border-bottom: 5px solid var(--gold);
+    }
+    .hero-inner, .layout { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .eyebrow { color: #e5c98f; text-transform: uppercase; letter-spacing: .16em; font-size: .76rem; font-weight: 800; }
+    h1 { font-size: clamp(2.1rem, 5vw, 3.5rem); line-height: 1.1; letter-spacing: -.04em; margin: 12px 0 18px; max-width: 850px; }
+    .hero p { color: #e4ebf5; max-width: 780px; font-size: 1.1rem; margin: 0; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .pill { border: 1px solid rgba(255,255,255,.25); border-radius: 999px; padding: 6px 12px; font-size: .82rem; color: #f5f7fb; }
+    .layout { display: grid; grid-template-columns: 265px minmax(0, 1fr); gap: 28px; align-items: start; padding: 28px 0 60px; }
+    aside {
+      position: sticky; top: 18px; background: var(--white); border: 1px solid var(--line);
+      border-radius: 16px; padding: 20px; box-shadow: var(--shadow); max-height: calc(100vh - 36px); overflow: auto;
+    }
+    aside h2 { font-size: .9rem; margin: 0 0 12px; color: var(--navy); text-transform: uppercase; letter-spacing: .07em; }
+    nav a { display: block; padding: 7px 9px; border-radius: 8px; text-decoration: none; color: #536176; font-size: .88rem; line-height: 1.4; }
+    nav a:hover, nav a:focus { background: var(--blue-soft); color: var(--navy); outline: none; }
+    main { min-width: 0; }
+    .intro-card, section {
+      background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: clamp(22px, 3vw, 34px);
+      margin-bottom: 20px; box-shadow: var(--shadow);
+    }
+    .intro-card { border-top: 4px solid var(--gold); }
+    section { scroll-margin-top: 18px; }
+    h2 { color: var(--navy); font-size: 1.55rem; line-height: 1.25; margin: 0 0 18px; letter-spacing: -.025em; }
+    h3 { color: var(--navy-2); font-size: 1.08rem; margin: 24px 0 8px; }
+    h4 { margin: 18px 0 6px; font-size: .98rem; }
+    p { margin: 9px 0 14px; }
+    ul, ol { padding-left: 1.35rem; margin: 8px 0 16px; }
+    li { padding-left: 3px; margin: 4px 0; }
+    .muted { color: var(--muted); }
+    .kpis { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; margin-top: 20px; }
+    .kpi { background: #f8fafd; border: 1px solid var(--line); padding: 15px; border-radius: 12px; }
+    .kpi strong { display: block; font-size: 1.45rem; color: var(--navy); line-height: 1.2; }
+    .kpi span { color: var(--muted); font-size: .84rem; }
+    .callout { border-left: 4px solid var(--gold); background: var(--gold-soft); padding: 14px 17px; border-radius: 0 10px 10px 0; margin: 18px 0; }
+    .note { border-left: 4px solid var(--green); background: #edf7f2; padding: 14px 17px; border-radius: 0 10px 10px 0; margin: 18px 0; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+    .subcard { border: 1px solid var(--line); border-radius: 12px; padding: 17px; background: #fcfdff; }
+    .subcard h3 { margin-top: 0; }
+    .tag { display: inline-block; background: var(--blue-soft); color: var(--navy-2); border-radius: 6px; padding: 2px 8px; font-size: .76rem; font-weight: 700; margin: 2px 3px 2px 0; }
+    table { border-collapse: collapse; width: 100%; margin: 14px 0 20px; font-size: .92rem; }
+    th, td { border: 1px solid var(--line); padding: 11px 12px; text-align: left; vertical-align: top; }
+    th { background: #f0f4fa; color: var(--navy); font-weight: 750; }
+    tr:nth-child(even) td { background: #fcfdff; }
+    .checklist { list-style: none; padding-left: 0; }
+    .checklist li { position: relative; padding-left: 28px; margin: 9px 0; }
+    .checklist li::before { content: "✓"; position: absolute; left: 0; top: 1px; display: grid; place-items: center; width: 19px; height: 19px; border: 1px solid #8eb9a8; border-radius: 5px; color: var(--green); font-weight: 800; font-size: .8rem; }
+    .phase { border-left: 3px solid var(--gold); padding: 0 0 4px 18px; margin: 20px 0; }
+    .phase h3 { margin-top: 0; }
+    code { background: #f0f3f8; padding: 2px 5px; border-radius: 5px; font-size: .9em; }
+    footer { text-align: center; padding: 24px 16px 40px; color: var(--muted); font-size: .86rem; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    button { border: 0; border-radius: 9px; padding: 10px 15px; cursor: pointer; font: inherit; font-weight: 700; }
+    .btn-primary { background: var(--gold); color: #1d2a3d; }
+    .btn-secondary { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.35); color: white; }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      aside { position: static; max-height: none; }
+      nav { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 2px 8px; }
+    }
+    @media (max-width: 600px) {
+      .hero { padding: 42px 18px; }
+      .hero-inner, .layout { width: min(100% - 24px, 1180px); }
+      .grid-2, .kpis { grid-template-columns: 1fr; }
+      nav { grid-template-columns: 1fr; }
+      table { display: block; overflow-x: auto; white-space: normal; }
+      .intro-card, section { padding: 20px; }
+    }
+    @media print {
+      body { background: white; font-size: 11pt; }
+      .hero { background: white !important; color: var(--navy); padding: 20px 0; border-bottom: 2px solid var(--gold); }
+      .hero p, .eyebrow, .pill { color: var(--navy); }
+      .hero-meta, aside, .actions { display: none !important; }
+      .layout, .hero-inner { width: 100%; display: block; padding: 0; }
+      .intro-card, section { box-shadow: none; break-inside: avoid; border: 1px solid #ccc; margin-bottom: 12px; }
+      h1 { font-size: 28pt; }
+      h2 { font-size: 17pt; }
+      a { color: inherit; text-decoration: none; }
+      footer { padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Documento de produto · Escopo funcional e técnico</div>
+      <h1>Louvor em Harmonia</h1>
+      <p>Especificação da plataforma web para organizar integrantes, escalas, cultos, repertórios, cifras e comunicação de uma equipe de louvor.</p>
+      <div class="hero-meta">
+        <span class="pill">Versão 1.0</span>
+        <span class="pill">Status: escopo inicial</span>
+        <span class="pill">Aplicação web responsiva</span>
+        <span class="pill">Acesso privado por perfil</span>
+      </div>
+      <div class="actions">
+        <button class="btn-primary" onclick="window.print()">Imprimir / salvar como PDF</button>
+        <button class="btn-secondary" onclick="document.getElementById('sumario').scrollIntoView({behavior:'smooth'})">Consultar sumário</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside id="sumario">
+      <h2>Sumário do escopo</h2>
+      <nav aria-label="Navegação do documento">
+        <a href="#visao-geral">1. Visão geral</a>
+        <a href="#objetivos">2. Objetivos</a>
+        <a href="#perfis">3. Perfis e permissões</a>
+        <a href="#integrantes">4. Integrantes</a>
+        <a href="#escalas">5. Escalas e eventos</a>
+        <a href="#repertorio">6. Repertório musical</a>
+        <a href="#cifras">7. Cifras</a>
+        <a href="#aniversarios">8. Aniversariantes</a>
+        <a href="#dashboards">9. Painéis iniciais</a>
+        <a href="#comunicacao">10. Comunicação</a>
+        <a href="#busca">11. Busca e filtros</a>
+        <a href="#ux">12. Design e acessibilidade</a>
+        <a href="#arquitetura">13. Arquitetura técnica</a>
+        <a href="#dados">14. Modelo de dados</a>
+        <a href="#seguranca">15. Segurança e privacidade</a>
+        <a href="#regras">16. Regras de negócio</a>
+        <a href="#aceitacao">17. Critérios de aceitação</a>
+        <a href="#roadmap">18. Fases de desenvolvimento</a>
+        <a href="#fora-escopo">19. Fora do escopo inicial</a>
+        <a href="#entregaveis">20. Entregáveis finais</a>
+      </nav>
+    </aside>
+
+    <main>
+      <div class="intro-card" id="visao-geral">
+        <h2>1. Visão geral do projeto</h2>
+        <p>O <strong>Louvor em Harmonia</strong> será uma plataforma privada para centralizar a gestão operacional e musical de um grupo de louvor. O sistema deve funcionar como fonte confiável das informações da equipe, reduzindo a dependência de planilhas e mensagens dispersas.</p>
+        <p>A solução precisa ser funcional de ponta a ponta: interface, autenticação, regras de permissão, banco de dados, validações e fluxos principais. Não basta apresentar telas estáticas ou ações simuladas.</p>
+        <div class="kpis">
+          <div class="kpi"><strong>2</strong><span>perfis iniciais de acesso</span></div>
+          <div class="kpi"><strong>7</strong><span>módulos funcionais centrais</span></div>
+          <div class="kpi"><strong>1</strong><span>fonte central de informação</span></div>
+        </div>
+      </div>
+
+      <section id="objetivos">
+        <h2>2. Objetivos do produto</h2>
+        <ul class="checklist">
+          <li>Centralizar os dados de integrantes, instrumentos e funções.</li>
+          <li>Organizar escalas de cultos, ensaios e eventos especiais.</li>
+          <li>Permitir consulta rápida das próximas convocações e confirmações.</li>
+          <li>Organizar músicas e repertórios reutilizáveis por evento.</li>
+          <li>Disponibilizar cifras, tonalidades e referências do YouTube.</li>
+          <li>Exibir aniversariantes e comunicados internos.</li>
+          <li>Proteger os dados por autenticação e permissões verificadas no servidor.</li>
+          <li>Oferecer uma experiência simples e responsiva, especialmente no celular.</li>
+        </ul>
+      </section>
+
+      <section id="perfis">
+        <h2>3. Perfis de acesso e permissões</h2>
+        <div class="grid-2">
+          <div class="subcard">
+            <h3>Líder de louvor / Administrador</h3>
+            <p>Responsável pela administração e organização da equipe.</p>
+            <ul>
+              <li>Gerenciar integrantes, funções e contas.</li>
+              <li>Criar, editar, publicar e cancelar escalas.</li>
+              <li>Montar repertórios, cadastrar músicas e cifras.</li>
+              <li>Consultar disponibilidades e confirmações.</li>
+              <li>Publicar avisos e consultar aniversariantes.</li>
+              <li>Configurar dados gerais da equipe.</li>
+              <li>Consultar histórico e indicadores operacionais.</li>
+            </ul>
+          </div>
+          <div class="subcard">
+            <h3>Integrante</h3>
+            <p>Responsável por consultar suas informações e preparar-se para os eventos.</p>
+            <ul>
+              <li>Consultar e atualizar os campos pessoais permitidos.</li>
+              <li>Ver escalas publicadas em que foi convocado.</li>
+              <li>Informar disponibilidade e confirmar presença.</li>
+              <li>Consultar repertório, tonalidades e cifras.</li>
+              <li>Abrir referências musicais no YouTube.</li>
+              <li>Consultar comunicados e aniversariantes autorizados.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="callout"><strong>Regra de segurança:</strong> permissões devem ser validadas no servidor em cada operação protegida. Ocultar um botão na interface não é controle de acesso suficiente.</div>
+        <table>
+          <thead><tr><th>Funcionalidade</th><th>Líder</th><th>Integrante</th></tr></thead>
+          <tbody>
+            <tr><td>Gerenciar contas e integrantes</td><td>Permissão completa</td><td>Somente o próprio perfil, em campos permitidos</td></tr>
+            <tr><td>Criar e publicar escalas</td><td>Sim</td><td>Não</td></tr>
+            <tr><td>Consultar escalas publicadas</td><td>Sim</td><td>Conforme regras de visibilidade</td></tr>
+            <tr><td>Confirmar participação</td><td>Consultar e administrar</td><td>Própria confirmação</td></tr>
+            <tr><td>Gerenciar biblioteca musical</td><td>Sim</td><td>Consultar</td></tr>
+            <tr><td>Montar repertório oficial</td><td>Sim</td><td>Consultar</td></tr>
+            <tr><td>Gerenciar configurações</td><td>Sim</td><td>Não</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="integrantes">
+        <h2>4. Cadastro e gestão de integrantes</h2>
+        <h3>4.1 Campos cadastrais</h3>
+        <ul>
+          <li>Nome completo e foto de perfil.</li>
+          <li>E-mail e telefone/WhatsApp, com acesso restrito.</li>
+          <li>Data de nascimento e data de entrada na equipe.</li>
+          <li>Função principal e funções secundárias.</li>
+          <li>Instrumentos, classificação vocal quando aplicável e observações musicais.</li>
+          <li>Status do integrante: ativo, inativo ou afastado.</li>
+          <li>Status da conta: convite pendente, ativa ou desativada.</li>
+          <li>Disponibilidade informada para datas futuras.</li>
+        </ul>
+        <h3>4.2 Catálogo inicial de instrumentos e funções</h3>
+        <p><span class="tag">Vocal principal</span><span class="tag">Backing vocal</span><span class="tag">Vocal masculino</span><span class="tag">Vocal feminino</span><span class="tag">Violão</span><span class="tag">Guitarra</span><span class="tag">Baixo</span><span class="tag">Bateria</span><span class="tag">Teclado</span><span class="tag">Piano</span><span class="tag">Saxofone</span><span class="tag">Flauta</span><span class="tag">Violino</span><span class="tag">Violoncelo</span><span class="tag">Percussão</span><span class="tag">Regência</span><span class="tag">Direção musical</span><span class="tag">Sonoplastia</span><span class="tag">Mídia/projeção</span></p>
+        <p>O administrador deverá poder adicionar, editar, desativar e organizar funções sem alterar o código. Um integrante pode ter várias habilidades e funções.</p>
+        <h3>4.3 Recursos da listagem</h3>
+        <ul>
+          <li>Busca por nome.</li>
+          <li>Filtros por instrumento, função e status.</li>
+          <li>Visualização em lista e cartões.</li>
+          <li>Cadastro, edição, consulta, desativação e exclusão controlada.</li>
+          <li>Proteção contra exclusão que comprometa escalas ou histórico.</li>
+        </ul>
+      </section>
+
+      <section id="escalas">
+        <h2>5. Gestão de escalas e eventos</h2>
+        <h3>5.1 Dados de cada evento</h3>
+        <ul>
+          <li>Título, tipo de evento e descrição.</li>
+          <li>Data, horário de início e término.</li>
+          <li>Local e observações.</li>
+          <li>Líder responsável.</li>
+          <li>Integrantes convocados e função de cada um no evento.</li>
+          <li>Repertório associado.</li>
+          <li>Status: rascunho, publicado, cancelado ou concluído.</li>
+        </ul>
+        <h3>5.2 Tipos de evento</h3>
+        <p>Culto regular, culto especial, ensaio, vigília, conferência e outros tipos configuráveis.</p>
+        <h3>5.3 Funcionalidades</h3>
+        <ul>
+          <li>Calendário mensal e semanal, além de visualização em lista.</li>
+          <li>Criação, edição, publicação, cancelamento e duplicação de escalas.</li>
+          <li>Atribuição de função individual por evento.</li>
+          <li>Associação de repertório específico.</li>
+          <li>Registro de disponibilidade e confirmação de presença.</li>
+          <li>Detecção de conflitos de horário e atribuições incompatíveis.</li>
+          <li>Histórico de alterações e eventos anteriores.</li>
+          <li>Aviso aos integrantes afetados quando uma escala publicada mudar.</li>
+        </ul>
+        <div class="note"><strong>Estados separados:</strong> estar convocado não significa estar confirmado. A interface deverá distinguir claramente “convocado”, “confirmado”, “indisponível” e “aguardando resposta”.</div>
+      </section>
+
+      <section id="repertorio">
+        <h2>6. Biblioteca musical e repertórios</h2>
+        <h3>6.1 Cadastro de música</h3>
+        <ul>
+          <li>Título e artista/ministério da gravação.</li>
+          <li>Compositor, quando conhecido.</li>
+          <li>Link do YouTube e referências externas opcionais.</li>
+          <li>Tonalidade original e tonalidade usada pela equipe.</li>
+          <li>BPM, compasso, categoria e observações musicais.</li>
+          <li>Cifra, letra ou referência externa autorizada.</li>
+          <li>Status ativo ou arquivado.</li>
+        </ul>
+        <h3>6.2 Montagem do repertório</h3>
+        <ul>
+          <li>Criar um repertório associado a um culto ou evento.</li>
+          <li>Adicionar músicas da biblioteca central.</li>
+          <li>Reordenar músicas por arrastar e soltar ou controles equivalentes.</li>
+          <li>Definir tonalidade e observações específicas para cada execução.</li>
+          <li>Substituir, remover ou reutilizar músicas de repertórios anteriores.</li>
+          <li>Organizar coleções por tema, momento do culto ou estilo musical.</li>
+        </ul>
+        <p>O integrante deverá encontrar o repertório em uma página clara, com ordem de execução, tonalidade definida, observações e acesso direto às referências.</p>
+        <div class="callout">O YouTube poderá abrir em nova aba ou ser incorporado quando permitido. O sistema não deve presumir que letras e cifras de terceiros podem ser reproduzidas livremente; deve respeitar direitos autorais e licenças aplicáveis.</div>
+      </section>
+
+      <section id="cifras">
+        <h2>7. Sistema de cifras</h2>
+        <p>O visualizador de cifras deverá priorizar leitura rápida durante estudo e ensaio, especialmente em celulares.</p>
+        <h3>Conteúdo possível</h3>
+        <ul>
+          <li>Título, tonalidade e acordes.</li>
+          <li>Introdução, versos, pré-refrão, refrão, ponte e finalização.</li>
+          <li>Letra e acordes sincronizados por seção, quando o conteúdo for autorizado.</li>
+          <li>Observações de execução e link para fonte externa.</li>
+        </ul>
+        <h3>Recursos de leitura</h3>
+        <ul>
+          <li>Fonte ajustável e modo de tela cheia.</li>
+          <li>Destaque visual dos acordes e navegação por seção.</li>
+          <li>Exibição da tonalidade usada no evento.</li>
+          <li>Transposição musicalmente correta, quando implementada.</li>
+          <li>Impressão ou exportação quando os direitos permitirem.</li>
+        </ul>
+        <p>A transposição deverá considerar sustenidos, bemóis e tonalidades equivalentes, evitando alterações apenas textuais que produzam acordes incorretos.</p>
+      </section>
+
+      <section id="aniversarios">
+        <h2>8. Aniversariantes do mês</h2>
+        <ul>
+          <li>Identificação automática a partir da data de nascimento.</li>
+          <li>Lista mensal ordenada pelo dia do aniversário.</li>
+          <li>Nome, foto e dia do mês, conforme permissões de acesso.</li>
+          <li>Destaque para aniversários do dia.</li>
+          <li>Consulta de outros meses e calendário anual.</li>
+          <li>Possibilidade futura de mensagens de felicitação.</li>
+        </ul>
+        <p>O cálculo considera dia e mês, independentemente do ano de nascimento. Dados pessoais devem ser exibidos apenas a usuários autorizados, conforme a política de privacidade da equipe.</p>
+      </section>
+
+      <section id="dashboards">
+        <h2>9. Painéis iniciais por perfil</h2>
+        <div class="grid-2">
+          <div class="subcard">
+            <h3>Painel do líder</h3>
+            <ul>
+              <li>Total de integrantes ativos.</li>
+              <li>Próximo culto e próximas escalas.</li>
+              <li>Escalas ainda não publicadas.</li>
+              <li>Confirmações pendentes.</li>
+              <li>Ensaios e eventos próximos.</li>
+              <li>Repertórios recentes.</li>
+              <li>Aniversariantes e avisos importantes.</li>
+              <li>Atalhos para cadastrar integrante, criar escala e montar repertório.</li>
+            </ul>
+          </div>
+          <div class="subcard">
+            <h3>Painel do integrante</h3>
+            <ul>
+              <li>Saudação personalizada.</li>
+              <li>Próxima escala e status de confirmação.</li>
+              <li>Data, horário e local.</li>
+              <li>Repertório e acesso às cifras.</li>
+              <li>Links de referência das músicas.</li>
+              <li>Próximos ensaios.</li>
+              <li>Aniversariantes e comunicados recentes.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="comunicacao">
+        <h2>10. Comunicação e notificações</h2>
+        <p>Implementar uma central de notificações internas com estado de leitura e histórico.</p>
+        <h3>Eventos notificáveis</h3>
+        <ul>
+          <li>Publicação de escala.</li>
+          <li>Alteração de data, horário, local ou convocação.</li>
+          <li>Publicação ou atualização de repertório.</li>
+          <li>Inclusão de músicas ou novos materiais.</li>
+          <li>Lembrete de culto, ensaio ou confirmação.</li>
+          <li>Comunicados do líder e aniversários do dia.</li>
+        </ul>
+        <p>Preparar a arquitetura para futuras integrações com e-mail e WhatsApp. Uma integração só deve aparecer como funcional quando estiver configurada, autorizada e testada.</p>
+      </section>
+
+      <section id="busca">
+        <h2>11. Busca e filtros</h2>
+        <ul>
+          <li><strong>Integrantes:</strong> nome, função, instrumento e status.</li>
+          <li><strong>Músicas:</strong> título, artista, categoria e tonalidade.</li>
+          <li><strong>Escalas:</strong> data, evento, status e integrante.</li>
+          <li><strong>Repertórios:</strong> culto, evento e período.</li>
+          <li><strong>Cifras:</strong> música e tonalidade.</li>
+          <li><strong>Aniversariantes:</strong> mês e dia.</li>
+        </ul>
+        <p>Os filtros devem operar sobre os dados reais persistidos e apresentar estados claros para carregamento, resultados vazios e falhas.</p>
+      </section>
+
+      <section id="ux">
+        <h2>12. Design, responsividade e acessibilidade</h2>
+        <h3>Direção visual</h3>
+        <ul>
+          <li>Estilo minimalista, acolhedor e contemporâneo.</li>
+          <li>Cores neutras com detalhes em azul profundo, verde ou dourado discreto.</li>
+          <li>Tipografia legível, espaçamento consistente e hierarquia visual clara.</li>
+          <li>Cartões com informações essenciais, formulários objetivos e ícones intuitivos.</li>
+          <li>Feedback para sucesso, erro, carregamento e ausência de dados.</li>
+        </ul>
+        <h3>Experiência por dispositivo</h3>
+        <ul>
+          <li>Desktop: navegação lateral e área de trabalho ampla.</li>
+          <li>Celular: navegação compacta com acesso rápido a escalas, repertórios e perfil.</li>
+          <li>Calendários, cifras, tabelas e formulários utilizáveis em telas pequenas.</li>
+          <li>Acessibilidade com contraste adequado, navegação por teclado e campos identificados.</li>
+        </ul>
+      </section>
+
+      <section id="arquitetura">
+        <h2>13. Arquitetura e tecnologias</h2>
+        <p>A stack final deverá considerar o ambiente disponível e a facilidade de manutenção. Se já existir um projeto, a IA desenvolvedora deverá inspecioná-lo antes de propor substituições.</p>
+        <table>
+          <thead><tr><th>Camada</th><th>Opção inicial</th><th>Observações</th></tr></thead>
+          <tbody>
+            <tr><td>Frontend</td><td>Next.js, React e TypeScript</td><td>Interface modular e tipada.</td></tr>
+            <tr><td>Estilização</td><td>Tailwind CSS e componentes acessíveis</td><td>Consistência visual e responsividade.</td></tr>
+            <tr><td>Backend</td><td>Rotas de servidor ou serviços estruturados</td><td>Regras de negócio e autorização centralizadas.</td></tr>
+            <tr><td>Banco de dados</td><td>PostgreSQL</td><td>Relacionamentos e integridade referencial.</td></tr>
+            <tr><td>ORM</td><td>Prisma ou equivalente</td><td>Migrações e consultas tipadas.</td></tr>
+            <tr><td>Autenticação</td><td>Solução consolidada</td><td>Sessões seguras e recuperação de acesso.</td></tr>
+            <tr><td>Arquivos</td><td>Armazenamento compatível com acesso controlado</td><td>Fotos e materiais autorizados.</td></tr>
+            <tr><td>Testes</td><td>Unitários, integração e fluxos essenciais</td><td>Validar regras e permissões.</td></tr>
+          </tbody>
+        </table>
+        <h3>Requisitos técnicos</h3>
+        <ul>
+          <li>Código modular e separação entre interface, regras de negócio e dados.</li>
+          <li>Banco relacional, migrações versionadas e integridade referencial.</li>
+          <li>Variáveis de ambiente para segredos e configurações.</li>
+          <li>Validação de entradas no servidor e tratamento consistente de erros.</li>
+          <li>Logs sem senhas, tokens ou dados pessoais desnecessários.</li>
+          <li>Paginação quando necessária, backups e plano de recuperação.</li>
+          <li>Documentação de instalação, configuração e deploy.</li>
+        </ul>
+      </section>
+
+      <section id="dados">
+        <h2>14. Modelo de dados inicial</h2>
+        <table>
+          <thead><tr><th>Entidade</th><th>Responsabilidade</th></tr></thead>
+          <tbody>
+            <tr><td><code>Users</code></td><td>Contas de acesso, status e vínculo com a solução de autenticação.</td></tr>
+            <tr><td><code>Members</code></td><td>Dados cadastrais dos integrantes.</td></tr>
+            <tr><td><code>Roles</code></td><td>Papéis e permissões.</td></tr>
+            <tr><td><code>Instruments</code></td><td>Instrumentos e funções disponíveis.</td></tr>
+            <tr><td><code>MemberSkills</code></td><td>Relacionamento entre integrantes e habilidades/funções.</td></tr>
+            <tr><td><code>Events</code></td><td>Cultos, ensaios e eventos especiais.</td></tr>
+            <tr><td><code>Schedules</code></td><td>Escalas vinculadas a eventos.</td></tr>
+            <tr><td><code>ScheduleAssignments</code></td><td>Integrantes, funções e confirmações por escala.</td></tr>
+            <tr><td><code>Availability</code></td><td>Disponibilidade informada pelos integrantes.</td></tr>
+            <tr><td><code>Songs</code></td><td>Biblioteca central de músicas.</td></tr>
+            <tr><td><code>SongResources</code></td><td>Links, cifras e materiais associados às músicas.</td></tr>
+            <tr><td><code>Setlists</code></td><td>Repertórios vinculados a eventos.</td></tr>
+            <tr><td><code>SetlistItems</code></td><td>Músicas, ordem e tonalidade específica por execução.</td></tr>
+            <tr><td><code>Announcements</code></td><td>Comunicados internos.</td></tr>
+            <tr><td><code>Notifications</code></td><td>Notificações individuais e estado de leitura.</td></tr>
+            <tr><td><code>AuditLogs</code></td><td>Histórico de ações administrativas relevantes.</td></tr>
+          </tbody>
+        </table>
+        <p>Definir chaves primárias, chaves estrangeiras, índices, restrições e regras de exclusão. Preservar histórico quando apagar ou desativar um registro puder comprometer escalas concluídas ou auditoria.</p>
+      </section>
+
+      <section id="seguranca">
+        <h2>15. Segurança e privacidade</h2>
+        <ul class="checklist">
+          <li>Aplicação privada por padrão, sem páginas internas acessíveis anonimamente.</li>
+          <li>Autorização no servidor em todas as operações protegidas.</li>
+          <li>Senhas nunca armazenadas em texto puro; usar autenticação consolidada.</li>
+          <li>Dados pessoais visíveis apenas conforme a necessidade e o perfil de acesso.</li>
+          <li>Desativação de contas e invalidação de sessões quando necessário.</li>
+          <li>Validação de entradas, proteção contra abuso e limitação de acesso quando pertinente.</li>
+          <li>Política de retenção e exclusão de dados.</li>
+          <li>Princípios da LGPD e autorizações necessárias para os dados cadastrados.</li>
+          <li>Logs de ações relevantes sem exposição de segredos ou dados excessivos.</li>
+          <li>Backups e procedimento de restauração documentados.</li>
+        </ul>
+      </section>
+
+      <section id="regras">
+        <h2>16. Regras de negócio</h2>
+        <ol>
+          <li>Um integrante pode exercer várias funções.</li>
+          <li>Uma escala pode incluir vários integrantes e funções por pessoa.</li>
+          <li>Um integrante pode participar de vários eventos.</li>
+          <li>Conflitos de horário devem ser detectados e sinalizados ao líder.</li>
+          <li>Convocação e confirmação de presença são estados distintos.</li>
+          <li>Um repertório pertence a um evento e contém músicas ordenadas.</li>
+          <li>Uma música pode ser reutilizada em diferentes repertórios.</li>
+          <li>A tonalidade por evento não deve sobrescrever a tonalidade original da biblioteca.</li>
+          <li>Aniversários são calculados automaticamente por dia e mês.</li>
+          <li>Integrantes acessam apenas os dados e ações permitidos ao próprio perfil.</li>
+          <li>Escalas e repertórios publicados permanecem consultáveis conforme as regras de acesso.</li>
+          <li>Registros relacionados não devem ser apagados de forma a comprometer o histórico.</li>
+          <li>Alterações relevantes em escalas publicadas devem ser registradas e comunicadas aos afetados.</li>
+        </ol>
+      </section>
+
+      <section id="aceitacao">
+        <h2>17. Critérios de aceitação e testes essenciais</h2>
+        <h3>Fluxo A — Cadastro de integrante</h3>
+        <ol>
+          <li>O líder entra no sistema e cadastra um integrante.</li>
+          <li>Define instrumentos, funções e status.</li>
+          <li>Cria ou vincula a conta de acesso.</li>
+          <li>O integrante entra com as próprias credenciais.</li>
+          <li>O integrante consulta e altera somente os campos autorizados.</li>
+        </ol>
+        <h3>Fluxo B — Escala</h3>
+        <ol>
+          <li>O líder cria um culto e informa data, horário e local.</li>
+          <li>Seleciona integrantes e define as funções.</li>
+          <li>Associa um repertório e publica a escala.</li>
+          <li>Os integrantes autorizados visualizam os detalhes.</li>
+          <li>Cada convocado pode registrar sua confirmação.</li>
+          <li>O líder consulta confirmações e conflitos.</li>
+        </ol>
+        <h3>Fluxo C — Repertório e cifras</h3>
+        <ol>
+          <li>O líder cadastra uma música e uma referência do YouTube.</li>
+          <li>Adiciona uma cifra própria, autorizada ou um link externo.</li>
+          <li>Cria o repertório, ordena as músicas e define tonalidades.</li>
+          <li>O integrante consulta o repertório e abre os materiais disponíveis.</li>
+        </ol>
+        <h3>Fluxo D — Aniversariantes</h3>
+        <ol>
+          <li>O líder cadastra datas de nascimento.</li>
+          <li>O sistema apresenta aniversariantes do mês em ordem cronológica.</li>
+          <li>A listagem respeita as permissões de acesso.</li>
+        </ol>
+        <h3>Fluxo E — Segurança</h3>
+        <ol>
+          <li>Um integrante tenta abrir uma rota administrativa.</li>
+          <li>A interface e o servidor bloqueiam o acesso.</li>
+          <li>Uma chamada direta à API administrativa também é bloqueada.</li>
+          <li>O usuário não consegue alterar dados de outros integrantes sem autorização.</li>
+        </ol>
+        <div class="note"><strong>Critério de conclusão:</strong> os fluxos devem ser testados com dados persistidos no banco, incluindo erros, campos inválidos, conflitos e permissões insuficientes.</div>
+      </section>
+
+      <section id="roadmap">
+        <h2>18. Fases de desenvolvimento</h2>
+        <div class="phase">
+          <h3>Fase 1 — Fundação</h3>
+          <p>Estrutura do projeto, banco de dados, autenticação, papéis, permissões e layout responsivo.</p>
+          <span class="tag">Base técnica</span>
+        </div>
+        <div class="phase">
+          <h3>Fase 2 — Integrantes</h3>
+          <p>Cadastro, edição, instrumentos, funções, busca, filtros e perfis individuais.</p>
+          <span class="tag">Gestão de equipe</span>
+        </div>
+        <div class="phase">
+          <h3>Fase 3 — Escalas</h3>
+          <p>Eventos, calendário, convocações, conflitos, publicação e confirmação de presença.</p>
+          <span class="tag">Operação dos cultos</span>
+        </div>
+        <div class="phase">
+          <h3>Fase 4 — Músicas e repertórios</h3>
+          <p>Biblioteca musical, links, ordenação, tonalidades e observações por evento.</p>
+          <span class="tag">Preparação musical</span>
+        </div>
+        <div class="phase">
+          <h3>Fase 5 — Cifras e aniversariantes</h3>
+          <p>Visualizador de cifras, recursos de transposição quando implementados e calendário de aniversários.</p>
+          <span class="tag">Estudo e comunidade</span>
+        </div>
+        <div class="phase">
+          <h3>Fase 6 — Comunicação</h3>
+          <p>Notificações internas, comunicados e avisos de alterações em escalas.</p>
+          <span class="tag">Comunicação</span>
+        </div>
+        <div class="phase">
+          <h3>Fase 7 — Qualidade e publicação</h3>
+          <p>Testes, revisão de segurança, responsividade, migrações, backup, documentação e deploy.</p>
+          <span class="tag">Produção</span>
+        </div>
+      </section>
+
+      <section id="fora-escopo">
+        <h2>19. Fora do escopo inicial</h2>
+        <p>Os itens abaixo poderão ser considerados em versões futuras, mas não são pré-requisitos para a primeira versão funcional:</p>
+        <ul>
+          <li>Aplicativos nativos para iOS e Android.</li>
+          <li>Integração automatizada com WhatsApp Business.</li>
+          <li>Envio de SMS e notificações push nativas.</li>
+          <li>Transmissão ao vivo ou hospedagem de vídeos musicais.</li>
+          <li>Gestão financeira, dízimos ou doações da igreja.</li>
+          <li>Partituras avançadas e edição colaborativa em tempo real.</li>
+          <li>Integração com calendários externos.</li>
+        </ul>
+        <p>Esses itens devem ser reavaliados após validação da primeira versão com a equipe.</p>
+      </section>
+
+      <section id="entregaveis">
+        <h2>20. Entregáveis finais</h2>
+        <ul class="checklist">
+          <li>Aplicação web funcional e responsiva.</li>
+          <li>Autenticação e permissões efetivamente aplicadas no backend.</li>
+          <li>Banco de dados relacional com migrações versionadas.</li>
+          <li>Módulos de integrantes, escalas, repertórios, cifras e aniversariantes.</li>
+          <li>Painéis específicos para líder e integrante.</li>
+          <li>Notificações internas essenciais.</li>
+          <li>Testes automatizados dos fluxos críticos.</li>
+          <li>Arquivo de variáveis de ambiente de exemplo, sem segredos reais.</li>
+          <li>Instruções para instalação, execução, migração e deploy.</li>
+          <li>Procedimento para criar o primeiro administrador.</li>
+          <li>Estratégia documentada de backup e recuperação.</li>
+          <li>Lista transparente de limitações ou integrações ainda não configuradas.</li>
+        </ul>
+        <h3>Orientações para a IA desenvolvedora</h3>
+        <ol>
+          <li>Inspecione o repositório e a infraestrutura antes de modificar o projeto.</li>
+          <li>Preserve o código existente que já funciona.</li>
+          <li>Apresente arquitetura e plano antes da implementação.</li>
+          <li>Implemente por fases, mantendo o projeto executável a cada etapa.</li>
+          <li>Não simule persistência, autenticação ou integrações.</li>
+          <li>Execute testes e corrija falhas antes de avançar.</li>
+          <li>Documente o que foi concluído e o que ainda está pendente.</li>
+        </ol>
+        <div class="callout"><strong>Definição de sucesso:</strong> o grupo de louvor consegue administrar integrantes, preparar escalas, organizar repertórios e consultar cifras no cotidiano real da igreja, com dados confiáveis, acesso seguro e boa experiência no celular.</div>
+      </section>
+    </main>
+  </div>
+  <footer>
+    Louvor em Harmonia · Documento de escopo funcional e técnico · Versão 1.0
+  </footer>
+</body>
+</html>
